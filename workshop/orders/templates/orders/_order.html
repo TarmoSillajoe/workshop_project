@@ -1,7 +1,10 @@
-<div class="order"
-    <span class="username">
-        <a href="{% url 'order:for_user' username=order.user.name %}">
-        @{{order.user.username}}
-        </a>
-    </span> 
-></div>
+<div class="order media">
+    <h3>{{ order.description|safe }}</h3>
+    <div class="media-body"></div>
+    <strong>{{ order.user.username }}</strong>
+    <h5 class="media-heading">
+        <time class="time"><a href="{% url 'orders:single' username=order.user.username pk=order.pk %}">{{ order.created_at }}</a></time>
+    </h5>
+
+
+</div>

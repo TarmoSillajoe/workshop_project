@@ -1,0 +1,12 @@
+{% extends "orders/order_base.html" %}
+
+{% load bootstrap3 %}
+
+{% block order_content %}
+    <h4>Create New Order</h4>
+    <form method="POST" action="{% url 'orders:create' %}" id="orderForm">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" value="Order" class="btn btn-primary btn-large">
+    </form>
+{% endblock %}

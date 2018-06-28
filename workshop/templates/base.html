@@ -16,10 +16,10 @@
   <body>
       <nav class='navbar mynav' role='navigation' id='navbar'>
         <div class="container">
-          <a class="navbar-brand mynav" href="{% url 'home' %}">Star Social</a>
+          <a class="navbar-brand mynav" href="{% url 'home' %}">My Application</a>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-              <li><a href="{% url 'orders:create' %}">Post</a></li>
+              <li><a href="{% url 'orders:create' %}">Order</a></li>
 
               <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
             {% else %}

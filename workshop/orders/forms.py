@@ -1,8 +1,15 @@
 from django import forms
-from .models import Order
 
-class OrderCreateForm():
+from orders import models
+
+
+class OrderCreateForm(forms.ModelForm):
 
         class Meta:
-            fields = ('description','vehicle')
-            model = Order
+            fields = ['vehicle','description']
+            model = models.Order
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args,**kwargs)
+            
+        

@@ -1,6 +1,7 @@
-{% extends "orders/orders_base.html" %}
-{% block content %}
+{% extends "orders/order_base.html" %}
+
+{% block order_content %}
     <div class="col-md-8">
-      {% include "orders/_order.html" %}
+        {% include "orders/_order.html" %}
     </div>
-{% endblock %}
+{% endblock order_content %}

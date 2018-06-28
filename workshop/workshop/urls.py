@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import re_path, path, include
+from django.conf import settings
 from . import views
 
 urlpatterns = [
@@ -26,3 +27,9 @@ urlpatterns = [
     re_path(r'^$',views.HomePage.as_view(),name='home'),
     re_path(r'^orders/',include('orders.urls',namespace='orders')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        re_path(r'^__debug__/', include(debug_toolbar.urls))
+    ] + urlpatterns
