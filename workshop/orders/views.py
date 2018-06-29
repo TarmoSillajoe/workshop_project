@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from braces.views import SelectRelatedMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.views import generic
 from . import models
 from . import forms
@@ -17,6 +19,14 @@ class UserOrders(generic.ListView):
     model = models.Order
     template_name = 'orders/user_order_list.html'
 
+    def get_queryset(self):
+        try:
+            self.order_user = User.objects.prefetch_related('orders').get(username__iexact=self.kwargs.get('username'))
+        except User.DoesNotExist:
+            raise Http404
+        else:
+            return self.order_user.orders.all()
+
 class CreateOrder(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
    #  form_class = forms.OrderCreateForm
     fields = ['vehicle','description']
@@ -30,9 +40,9 @@ class CreateOrder(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
         
 
 
-class OrderDetail(SelectRelatedMixin, generic.DetailView):
+class OrderDetail(generic.DetailView):
     model = models.Order
-    select_related = ("user")
+    #select_related = ("user")
 
     def get_queryset(self):
         queryset = super().get_queryset()
