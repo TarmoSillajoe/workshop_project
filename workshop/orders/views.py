@@ -13,7 +13,8 @@ User = get_user_model()
 
 class OrderList(SelectRelatedMixin,generic.ListView):
     model = models.Order
-    select_related=('user', 'description')
+    
+    select_related=('user',)
 
 class UserOrders(generic.ListView):
     model = models.Order

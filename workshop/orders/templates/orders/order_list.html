@@ -1,0 +1,9 @@
+{% extends "orders/order_base.html" %}
+
+{% block order_content %}
+  <div class="col-md-8">
+    {% for order in order_list  %}
+      {% include "orders/_order.html" %}
+    {% endfor %}
+  </div>
+{% endblock %}
