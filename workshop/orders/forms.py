@@ -1,15 +1,19 @@
-from django import forms
+from django.forms import ModelForm
+from django.forms.models import inlineformset_factory
 
-from orders import models
+from  .models import OrderedPart, Order
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        exclude = ()
 
 
-class OrderCreateForm(forms.ModelForm):
+class OrderedPartForm(ModelForm):
 
-        class Meta:
-            fields = ['vehicle','description']
-            model = models.Order
+    class Meta:
+        model = OrderedPart
+        exclude = ()
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args,**kwargs)
-            
-        
+OrderedPartFormset = inlineformset_factory(Order, OrderedPart, 
+                                            form=OrderedPartForm, extra=2)

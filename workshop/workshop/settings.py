@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'bootstrap3',
+    'bootstrap4',
     'accounts',
     'orders',
 ]
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'workshop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mydjangodb',
         'USER': 'root',
         'PASSWORD': '',

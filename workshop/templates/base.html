@@ -19,7 +19,7 @@
           <a class="navbar-brand mynav" href="{% url 'home' %}">My Application</a>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-              <li><a href="{% url 'orders:create' %}">Order</a></li>
+              <li><a href="{% url 'orders:order-add' %}">Order</a></li>
 
               <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
             {% else %}

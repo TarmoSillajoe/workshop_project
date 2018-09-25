@@ -12,7 +12,7 @@ User = get_user_model()
 # Create your models here.
 class Order(models.Model):
     user = models.ForeignKey(User,related_name='orders',on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True, editable=False)
     description = models.CharField(max_length=100)
     vehicle = models.CharField(max_length=100)
 
@@ -44,4 +44,4 @@ class OrderedPart(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
     quantity = models.IntegerField(default=1)
-    order = models.ForeignKey(Order, related_name='parts', null=True,blank=True,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='parts', null=True, blank=True,on_delete=models.CASCADE)
