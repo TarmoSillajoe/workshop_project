@@ -10,5 +10,5 @@ urlpatterns = [
         views.OrderOrderedPartUpdateView.as_view(),
         name='order_parts_update'),
     re_path(r"^$", views.OrderList.as_view(), name="all_orders"),
-    #re_path(r"by/(?P<username>[-\w]+)/(?P<pk>\d+)/$", views.OrderDetail.as_view(), name="single"),
+    re_path(r"by/(?P<username>[-\w]+)/(?P<pk>\d+)/$", views.OrderDetail.as_view(), name="single"),
 ]

@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from django.contrib import messages
+from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -58,16 +60,19 @@ class OrderOrderedPartCreate(CreateView):
             data['orderedparts'] = OrderedPartFormset()
         return data
 
+
     def form_valid(self, form):
         context = self.get_context_data()
         orderedparts = context['orderedparts']
         with transaction.atomic():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            self.object.user = self.request.user
+            self.object.save()
 
         if orderedparts.is_valid():
             orderedparts.instance = self.objects
             orderedparts.save()
-        return super(OrderOrderedPartCreate, self).form.form_valid(form)
+        return super(OrderOrderedPartCreate, self).form_valid(form)
         
 
 class OrderOrderedPartUpdateView(SingleObjectMixin, FormView,LoginRequiredMixin,SelectRelatedMixin):
@@ -86,12 +91,20 @@ class OrderOrderedPartUpdateView(SingleObjectMixin, FormView,LoginRequiredMixin,
 
     def form_valid(self, form):
         context = self.get_context_data()
-        familymembers = context['orderedparts']
+        orderedparts = context['orderedparts']
         with transaction.atomic():
             self.object = form.save()
 
-            if familymembers.is_valid():
-                familymembers.instance = self.object
-                familymembers.save()
+            if orderedparts.is_valid():
+                orderedparts.instance = self.object
+                orderedparts.save()
         return super(OrderOrderedPartUpdateView, self).form_valid(form)
 
+
+class OrderDetail(SelectRelatedMixin, generic.DetailView):
+    model = Order
+    select_related = ('user',)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user__username__iexact=self.kwargs.get('username'))

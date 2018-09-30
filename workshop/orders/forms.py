@@ -16,4 +16,4 @@ class OrderedPartForm(ModelForm):
         exclude = ()
 
 OrderedPartFormset = inlineformset_factory(Order, OrderedPart, 
-                                            form=OrderedPartForm, extra=2)
+                                            form=OrderedPartForm, extra=1)
