@@ -1,0 +1,14 @@
+{% extends "orders/order_base.html" %}
+{% block order_content %}
+   <div class="col-md-8">
+        {% include "orders/_order.html" %}
+
+    {% for orderline in order.parts.all %}
+    <ul>
+        <li>{{orderline.part}}, {{orderline.quantity}}</li>
+    </ul>
+    {% endfor %}
+
+   </div>
+
+{% endblock order_content %}

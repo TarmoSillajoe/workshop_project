@@ -38,6 +38,7 @@ class Part(models.Model):
 
     def __str__(self):
         return "{0}; {1}".format(self.code, self.description)
+    
 
 class OrderedPart(models.Model):
     part = models.OneToOneField( Part,
