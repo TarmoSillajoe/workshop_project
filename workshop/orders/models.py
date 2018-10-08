@@ -34,15 +34,15 @@ class Order(models.Model):
 class Part(models.Model):
     code = models.CharField(max_length=20)
     description = models.CharField(max_length=100)
-    orders = models.ManyToManyField(Order)
+    order = models.ManyToManyField(Order, through="OrderedPart")
 
     def __str__(self):
         return "{0}; {1}".format(self.code, self.description)
-    
 
+        
 class OrderedPart(models.Model):
-    part = models.OneToOneField( Part,
-        on_delete=models.CASCADE,
-        primary_key=True)
+    part = models.ForeignKey(Part, blank=True, null=True, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    order = models.ForeignKey(Order, related_name='parts', null=True, blank=True,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='parts',  on_delete=models.CASCADE)
+
+

@@ -14,7 +14,7 @@ from django.views.generic import (
 from django.views.generic.detail import SingleObjectMixin
 
 from .forms import OrderedPartFormset
-from .models import Order, OrderedPart
+from .models import Order, Part, OrderedPart
 
 # Create your views here.
 User = get_user_model()
@@ -42,7 +42,7 @@ class OrderCreateView(CreateView, LoginRequiredMixin,SelectRelatedMixin):
     model = Order
     #template_name = 'orders/order_form.html'
     #success_url = reverse_lazy('orders:all_orders')
-    fields = ['part', 'quantity']
+    fields = ['description', 'vehicle']
 
 
 class OrderOrderedPartCreate(CreateView):
@@ -67,21 +67,21 @@ class OrderOrderedPartCreate(CreateView):
         with transaction.atomic():
             self.object = form.save(commit=False)
             self.object.user = self.request.user
-            self.object.save()
+            self.object = form.save(commit=True)
 
         if orderedparts.is_valid():
-            orderedparts.instance = self.objects
+            orderedparts.instance = self.object
             orderedparts.save()
         return super(OrderOrderedPartCreate, self).form_valid(form)
         
 
-class OrderOrderedPartUpdateView(SingleObjectMixin, FormView,LoginRequiredMixin,SelectRelatedMixin):
+class OrderOrderedPartUpdate(SingleObjectMixin, FormView,LoginRequiredMixin,SelectRelatedMixin):
     model = Order
     fields = ['vehicle', 'description']
     success_url = reverse_lazy('orders:all_orders')
 
     def get_context_data(self, **kwargs):
-        data = super(ProfileFamilyMemberUpdate, self).get_context_data(**kwargs)
+        data = super(OrderOrderedPartUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
             data['orderedparts'] = OrderedPartFormset(self.request.POST, instance=self.object)
         else:
@@ -91,7 +91,7 @@ class OrderOrderedPartUpdateView(SingleObjectMixin, FormView,LoginRequiredMixin,
 
     def form_valid(self, form):
         context = self.get_context_data()
-        orderedparts = context['orderedparts']
+        parts = context['orderedparts']
         with transaction.atomic():
             self.object = form.save()
 

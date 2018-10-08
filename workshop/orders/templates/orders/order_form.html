@@ -9,6 +9,7 @@
             {{ orderedparts.management_form }}
 
             {% for form in orderedparts.forms %}
+            {{  form.id }}
             {% if forloop.first %}
             <thead>
                 <tr>
@@ -43,7 +44,7 @@
 <script src="{% static 'formset/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $('.formset_row').formset({
-        addText: 'add oredered part',
+        addText: 'add part',
         deleteText: 'remove',
         prefix: 'orderedpart_set'
     });
