@@ -67,11 +67,12 @@ class OrderOrderedPartCreate(CreateView):
         with transaction.atomic():
             self.object = form.save(commit=False)
             self.object.user = self.request.user
-            self.object = form.save(commit=True)
-
+            form.save()
+        
         if orderedparts.is_valid():
             orderedparts.instance = self.object
             orderedparts.save()
+        print(orderedparts.cleaned_data)
         return super(OrderOrderedPartCreate, self).form_valid(form)
         
 

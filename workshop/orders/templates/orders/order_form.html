@@ -9,7 +9,7 @@
             {{ orderedparts.management_form }}
 
             {% for form in orderedparts.forms %}
-            {{  form.id }}
+            
             {% if forloop.first %}
             <thead>
                 <tr>
@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             {% endif %}
-
+            {{ form.id }}
             <tr class="{% cycle row1 row2 %} formset_row">
                 {% for field in form.visible_fields %}
                 <td>
